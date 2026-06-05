@@ -1,0 +1,20 @@
+# Last Updated: 2026-06-05
+
+# Crontab Environment Variables
+ENV_FLIGHT=/proj/sot/ska3/flight
+SOH_DIR=/data/mta/Script/SOH_ASVT
+SOH_WEB_DIR=/data/mta4/www/CSH_ASVT
+
+# BUOCC Snapshot
+0,30 * * * * /data/mta4/www/Snapshot/BUOCC/run-acorn-bu.pl >> ${HOME}/Logs/RT/run-acorn_buocc.cron 2>&1
+* * * * * cd /data/mta4/www/Snapshot/BUOCC; ./tlogr.pl >> ${HOME}/Logs/RT/tlogr_buocc1.cron 2>&1
+
+# Maude CSH
+# Always activated to update supplemental information
+34 1 * * * ${ENV_FLIGHT}/bin/skare ${SOH_DIR}/read_comm_time.py -m flight >> ${HOME}/Logs/asvt_read_comm.cron 2>&1
+40 1 1 * * ${ENV_FLIGHT}/bin/skare ${SOH_DIR}/csh_limits_supplemental.py -m flight >> ${HOME}/Logs/asvt_lim_desc.cron 2>&1
+
+# Activated only during a SIM
+# https://docs.google.com/document/d/1-ow5GudTw4cteKqpkShQnpdXkQgbvyMGhoA32-0paiA/edit?usp=sharing
+#*/10 * * * * ${ENV_FLIGHT}/bin/skare ${SOH_DIR}/csh_plots.py -m flight >> ${HOME}/Logs/generate_asvt_plots.cron 2>&1
+#* * * * * ${ENV_FLIGHT}/bin/skare ${SOH_DIR}/fetch_telem.sh >> ${HOME}/Logs/asvt_fetch_telem.cron 2>&1
