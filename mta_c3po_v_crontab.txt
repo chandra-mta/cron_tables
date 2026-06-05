@@ -23,9 +23,9 @@ ENV_FLIGHT=/proj/sot/ska3/flight
 #---- Check for New Tracelogs and Start Older SOH pages
 #
 #* * * * * /data/mta4/www/SOH/rt_checker.pl >> $HOME/Logs/RT/rt1_checker.cron 2>&1
-#* * * * * /data/mta4/www/SOH/rt_checker_ccdm.pl >>$HOME/Logs/RT/rt1_checker_ccdm.cron 2>&1
-#* * * * * /data/mta4/www/SOH/rt_checker_pcad.pl >>$HOME/Logs/RT/rt1_checker_pcad.cron 2>&1
-#* * * * * /data/mta4/www/SOH/rt_checker_safe.pl >>$HOME/Logs/RT/rt1_checker_safe.cron 2>&1
+#* * * * * /data/mta4/www/SOH/rt_checker_ccdm.pl >> $HOME/Logs/RT/rt1_checker_ccdm.cron 2>&1
+#* * * * * /data/mta4/www/SOH/rt_checker_pcad.pl >> $HOME/Logs/RT/rt1_checker_pcad.cron 2>&1
+#* * * * * /data/mta4/www/SOH/rt_checker_safe.pl >> $HOME/Logs/RT/rt1_checker_safe.cron 2>&1
 #
 ######################################################################################
 #-- MTA Related Scripts                                                           ---
@@ -77,7 +77,7 @@ ENV_FLIGHT=/proj/sot/ska3/flight
 #
 #--- ACIS Bad Pix
 #
-15 3  * * *  /data/mta/Script/ACIS/Bad_pixels/Script/acis_bad_pixel_wrap_script  >>$HOME/Logs/acis_bad_pix.cron  2>&1
+15 3  * * *  /data/mta/Script/ACIS/Bad_pixels/Script/acis_bad_pixel_wrap_script  >> $HOME/Logs/acis_bad_pix.cron  2>&1
 30 3 * * 6  cd /data/mta/Script/ACIS/Bad_pixels/Exc; /data/mta/Script/ACIS/Bad_pixels/Script/acis_bias_plot_wrap_script  >> $HOME/Logs/acis_bis_bkg.cron  2>&1
 #
 #--- ACIS Rejected Events
