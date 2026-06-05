@@ -1,0 +1,278 @@
+#
+###################################################################################
+#--- SIM movement
+###################################################################################
+#
+#15 2 * * * cd /data/mta_www/mta_sim/Scripts/SIM_extract/; /data/mta_www/mta_sim/Scripts/SIM_extract/sim_data_wrap_script >> $HOME/Logs/sim_data_ti.cron  2>&1
+14 4 * * * cd /data/mta/Script/SIM_move/Exc; /data/mta/Script/SIM_move/Scripts/run_sim_warp_script  >> $HOME/Logs/sim_movement.cron 2>&1
+#
+####################################################################################
+##--- TST related
+####################################################################################
+##
+22 2 * * *  /data/mta4/proj/rac/ops/ephem/TLE/get_tle.pl        >> $HOME/Logs/get_tle.cron 2>&1
+21 3 * * *  /data/mta4/proj/rac/ops/ephem/ephem.pl              >> $HOME/Logs/ephem.cron   2>&1
+*  * * * *  /data/mta4/proj/rac/ops/ephem/gephem.pl             >> $HOME/Logs/gephem.cron  2>&1
+##
+#2,7,12,17,22,27,32,37,42,47,52,57 * * * * /data/mta4/proj/rac/ops/GOES/get_go.pl    >> $HOME/Logs/get_go.cron 2>&1
+#2,7,12,17,22,27,32,37,42,47,52,57 * * * * cd /data/mta4/proj/rac/ops/GOES/; ./get_goes_json.py >> $HOME/Logs/get_goes_json.cron 2>&1
+#2,7,12,17,22,27,32,37,42,47,52,57 * * * * /data/mta4/proj/rac/ops/GOES/I4/get_go.pl >> $HOME/Logs/get_go_i4.cron 2>&1
+##
+###################################################################################
+##-- Older Space Weather                                                   ---
+###################################################################################
+##
+#2,7,12,17,22,27,32,37,42,47,52,57 * * * * /home/mta/Snap/getfiles >> $HOME/Logs/RT/snap-auxfiles.cron 2>&1
+##
+##--- Rad Sum
+##
+#08,18,28,38,47,58 * * * * cd /data/mta4/www/ ; ./copy_rac                            >> $HOME/Logs/copy_rac.cron 2>&1
+#2,12,22,32,42,52  * * * * cd /data/mta4/www/alerts ; /usr/local/bin/idl run_rad_summ >> $HOME/Logs/rad_summ.cron 2>&1
+#
+##################################################################################
+#---- Snapshot
+##################################################################################
+#
+#--- Restart ACORN if necessary
+#
+#3,30 * * * * /data/mta4/www/Snapshot/run-acorn.pl >> $HOME/Logs/RT/run-acorn.cron      2>&1
+#1,31 * * * * /data/mta4/www/SOH/run-acorn.pl      >> $HOME/Logs/RT/run-acorn-soh.cron  2>&1
+#2,32 * * * * /data/mta4/www/SOH/PCAD/run-acorn.pl >> $HOME/Logs/RT/run-acorn-pcad.cron 2>&1
+#
+#* * * * * cd /data/mta4/www/Snapshot; ./tlogr_linux.pl >> $HOME/Logs/RT/tlogr.cron 2>&1
+#
+#--- Delete Old (> 3 days) Snapshot Nightly
+#
+1 0 * * * /data/mta4/www/Snapshot/snarcl.pl >> $HOME/Logs/RT/snarcl.cron 2>&1
+#
+#1 12 6 7  * cd /data/mta4/www/Snapshot; ./firedrill_google.pl    >> $HOME/Logs/firedrill_google.cron    2>&1
+#6 12 6 7  * cd /data/mta4/www/Snapshot; ./firedrill_majordomo.pl >> $HOME/Logs/firedrill_majordomo.cron 2>&1
+#12 12 6 7 * cd /data/mta4/www/Snapshot; ./firedrill_ipa.pl       >> $HOME/Logs/firedrill_ipa.cron       2>&1
+#
+#---- Check for New Tracelogs and Start Older SOH pages
+#
+#* * * * * /data/mta4/www/SOH/rt_checker.pl >> $HOME/Logs/RT/rt1_checker.cron 2>&1
+#* * * * * /data/mta4/www/SOH/rt_checker_ccdm.pl >>$HOME/Logs/RT/rt1_checker_ccdm.cron 2>&1
+#* * * * * /data/mta4/www/SOH/rt_checker_pcad.pl >>$HOME/Logs/RT/rt1_checker_pcad.cron 2>&1
+#* * * * * /data/mta4/www/SOH/rt_checker_safe.pl >>$HOME/Logs/RT/rt1_checker_safe.cron 2>&1
+#
+###################################################################################
+##-- Space Weather: New Site                                                                     ---
+###################################################################################
+##
+##--- ACIS Rad ---
+##
+#45 2 * * * /data/mta4/Space_Weather/ACIS_Rad/Scripts/run_rad_wrap_script     >> $HOME/Logs/acis_rad_run_rad_new.cron   2>&1
+#43 2 1 * * /data/mta4/Space_Weather/ACIS_Rad/Scripts/update_html_wrap_script >> $HOME/Logs/acis_rad_html_page_new.cron 2>&1
+#27 3 * * * cp /data/mta/DataSeeker/data/repository/dephem.rdb /data/mta4/Space_Weather/ACIS_Rad/Data/
+##
+##--- CTI Data Used by ACIS Rad (THIS WILL BE A MIRROR SIDE AFTER SWAPPED!!)
+##
+#40 1 * * * cd /data/mta/Script/Space_Weather/ACIS_Rad/Scripts; /data/mta/Script/Space_Weather/ACIS_Rad/Scripts/get_cti_data >> $HOME/Logs/acis_rad_main.cron 2>&1
+##
+##--- Alert summary page ---
+##
+#2,12,22,32,42,52 * * * * cd /data/mta4/Space_Weather/ALERTS/Scripts ; /data/mta4/Space_Weather/ALERTS/Scripts/rad_summ_wrap_script >> $HOME/Logs/alert_summary_new.cron 2>&1
+##
+##--- Comm related Data ---
+##
+#23 * * * * /data/mta4/Space_Weather/Comm_data/Scripts/comm_wrap_script >> $HOME/Logs/comm_collect_comm_new.cron 2>&1
+##
+##--- CRM ---
+##
+#21 3,6,9,12,18,21 * * *                    /data/mta4/Space_Weather/CRM3/Scripts/crm_wrap_script       >> $HOME/Logs/crm3_runcrm_new.cron       2>&1
+#4,9,14,19,24,29,34,39,44,49,54,59 * * * *  /data/mta4/Space_Weather/CRM3/Scripts/crm_table_wrap_script >> $HOME/Logs/crm3_create_table_new.cron 2>&1
+##
+##--- EPEHM --- run before crm_wrap_script
+##
+#32 3,6,9,12,18,21 * * *   /data/mta4/Space_Weather/EPHEM/Scripts/ephem_shorten_wrap_script >> $HOME/Logs/ephem_shorten_new.cron 2>&1
+#21 3 * * *                /data/mta4/Space_Weather/EPHEM/Scripts/ephem_copy_wrap_script    >> $HOME/Logs/ephem_ephem_new.cron   2>&1
+##14 * * * *              cd /data/mta4/Space_Weather/EPHEM/Scripts; /data/mta4/Space_Weather/EPHEM/Scripts/daemon_process_check_ephem_secondary.py >> $HOME/Logs/daemon_process_check_ephem_secondary_r2d2.cron 2>&1
+##
+##--- GOES ---
+##
+#2,7,12,17,22,27,32,37,42,47,52,57 * * * * /data/mta4/Space_Weather/GOES/Scripts/goes_wrap_script      >> $HOME/Logs/goes_main_new.cron      2>&1
+#14 2 * * *                                /data/mta4/Space_Weather/GOES/Scripts/goes_long_wrap_script >> $HOME/Logs/goes_long_term_new.cron 2>&1
+##
+##--- GSM Plots ---
+##
+#2,17,32,47 * * * * cd /data/mta4/Space_Weather/GSM_plots/Scripts/; /data/mta4/Space_Weather/GSM_plots/Scripts/gsm_wrap_script >> $HOME/Logs/gsm_plot_new.cron 2>&1
+##
+##--- SOHO ---
+##
+#36 0,3,6,9,12,15,18,21 * * *  cd /data/mta4/Space_Weather/SOHO/Scripts; /data/mta4/Space_Weather/SOHO/Scripts/solar_wind_warp_script >> $HOME/Logs/soho_solwin_new.cron 2>&1
+##
+##--- STEREO ---
+##
+#2,6,11,16,21,26,31,36,41,46,51,56 * * * * /data/mta4/Space_Weather/STEREO/Scripts/stereo_wrap_script >> $HOME/Logs/stereo_data_new.cron 2>&1
+##
+##--- TLE ---
+##
+#22 2 * * *  cd /data/mta4/Space_Weather/TLE/Scripts/;/data/mta4/Space_Weather/TLE/Scripts/create_orbital_warp_script >> $HOME/Logs/tle_get_new.cron 2>&1
+#
+#
+#############################################################################################
+#----- Space Weather Mirror Site                                                            --
+#############################################################################################
+SPACE_WEATHER=/data/mta/Script/Space_Weather
+SPACE_WEATHER_WEB=/data/mta/www/MIRROR/Space_Weather
+SPACE_WEATHER_URL=https://ops-web.cfa.harvard.edu/mta/Space_Weather
+ENV_FLIGHT=/proj/sot/ska3/flight
+#
+#--- ACE ---
+#
+3-59/5 * * * * ${ENV_FLIGHT}/bin/skare ${SPACE_WEATHER}/ACE/Scripts/ace.sh >> ${HOME}/Logs/ace_main_mirror.cron 2>&1
+4-59/5 * * * * cd ${SPACE_WEATHER}/ACE/Scripts; ${ENV_FLIGHT}/bin/skare python alert_ace.py -m flight >> ${HOME}/Logs/ace_main_mirror.cron 2>&1
+#
+#--- ACIS Rad ---
+#
+45 1 * * * /data/mta/Script/Space_Weather/ACIS_Rad/Scripts/run_rad_wrap_script     >> $HOME/Logs/acis_rad_run_rad_mirror.cron   2>&1
+43 1 1 * * /data/mta/Script/Space_Weather/ACIS_Rad/Scripts/update_html_wrap_script >> $HOME/Logs/acis_rad_html_page_mirror.cron 2>&1
+#
+#--- CTI Data Used by ACIS Rad
+#
+40 1 * * * cd /data/mta4/www/DAILY/mta_rad; /data/mta4/www/DAILY/mta_rad/get_cti_data >> $HOME/Logs/acis_rad_mirror.cron 2>&1
+#
+#--- Alert Summary Page ---
+#
+2,12,22,32,42,52 * * * * /data/mta/Script/Space_Weather/ALERTS/Scripts/rad_summ_wrap_script >> $HOME/Logs/alert_summary_mirror.cron 2>&1
+#
+#--- Comm Related Data ---
+#
+23 * * * * /data/mta/Script/Space_Weather/Comm_data/Scripts/comm_wrap_script >> $HOME/Logs/comm_collect_comm_mirror.cron 2>&1
+#
+#--- CRM ---
+#
+21 3,6,9,12,18,21 * * *                   /data/mta/Script/Space_Weather/CRM3/Scripts/crm_wrap_script       >> $HOME/Logs/crm3_runcrm_mirror.cron       2>&1
+4-59/5 * * * *  ${ENV_FLIGHT}/bin/skare ${SPACE_WEATHER}/CRM3/Scripts/crm.sh >> ${HOME}/Logs/crm3_create_table_mirror.cron 2>&1
+*/5 * * * * cd ${SPACE_WEATHER}/CRM3/Scripts ; ${ENV_FLIGHT}/bin/skare python create_crm_dat_file.py -m flight >> ${HOME}/Logs/crm3_create_table_mirror.cron 2>&1
+#
+#--- EPHEM ---
+#
+21 3 * * *               /data/mta/Script/Space_Weather/EPHEM/Scripts/ephem_copy_wrap_script    >> $HOME/Logs/ephem_ephem_mirror.cron   2>&1
+32 3,6,9,12,18,21 * * *  /data/mta/Script/Space_Weather/EPHEM/Scripts/ephem_shorten_wrap_script >> $HOME/Logs/ephem_shorten_mirror.cron 2>&1
+14 * * * *              cd /data/mta/Script/Space_Weather/EPHEM/Scripts; /data/mta/Script/Space_Weather/EPHEM/Scripts/daemon_process_check_ephem_secondary.py >> $HOME/Logs/daemon_process_check_ephem_secondary.cron 2>&1
+#
+#--- GOES ---
+#
+14 2 * * * cd ${SPACE_WEATHER}/GOES/Scripts; ${ENV_FLIGHT}/bin/skare python collect_goes_long.py -m flight >> ${HOME}/Logs/goes_long_term_mirror.cron 2>&1
+30 2 * * * cd ${SPACE_WEATHER}/GOES/Scripts; ${ENV_FLIGHT}/bin/skare python swpc_media.py -m flight >> ${HOME}/Logs/swpc_media_mirror.cron 2>&1
+
+2-59/5 * * * * ${ENV_FLIGHT}/bin/skare ${SPACE_WEATHER}/GOES/Scripts/goes.sh >> ${HOME}/Logs/goes_main_mirror.cron 2>&1
+3-59/5 * * * * cd ${SPACE_WEATHER}/GOES/Scripts; ${ENV_FLIGHT}/bin/skare python alert_hrc.py -m flight >> ${HOME}/Logs/goes_main_mirror.cron 2>&1
+4-59/5 * * * * cd ${SPACE_WEATHER}/GOES/Scripts; ${ENV_FLIGHT}/bin/skare python check_archive.py -m flight >> ${HOME}/Logs/goes_archive_check_mirror.cron 2>&1
+#
+#--- GSM Plots ---
+#
+2,17,32,47 * * * *  /data/mta/Script/Space_Weather/GSM_plots/Scripts/gsm_wrap_script >> $HOME/Logs/gsm_plot.cron 2>&1
+#
+#--- KP ---
+#
+14 */3 * * * cd ${SPACE_WEATHER}/KP/Scripts; ${ENV_FLIGHT}/bin/skare python fetch_kp_tables.py -m flight >> ${HOME}/Logs/kp_index_update_mirror.cron 2>&1
+#
+#--- SOHO ---
+#
+36 0,3,6,9,12,15,18,21 * * *  /data/mta/Script/Space_Weather/SOHO/Scripts/solar_wind_wrap_script >> $HOME/Logs/soho_solwin_mirror.cron 2>&1
+#
+#--- STEREO ---
+#
+#2,6,11,16,21,26,31,36,41,46,51,56 * * * * /data/mta/Script/Space_Weather/STEREO/Scripts/stereo_wrap_script >> $HOME/Logs/stereo_data_mirror.cron 2>&1
+#
+#--- TLE ---
+#
+22 2 * * *  /data/mta/Script/Space_Weather/TLE/Scripts/create_orbital_warp_script >> $HOME/Logs/tle_get_mirror.cron 2>&1
+#
+#--- XMM ---
+#
+2,12,22,32,42,52 * * * * /data/mta/Script/Space_Weather/XMM/Scripts/xmm_wrap_script >> $HOME/Logs/xmm_main_mirror.cron  2>&1
+#
+############################################################################################
+#---  Older Space Weather Related
+#############################################################################################
+#2,7,12,17,22,27,32,37,42,47,52,57 * * * * cd /data/mta_www/MIRROR/OPS/GOES/Plot_r2d2/Main/; /data/mta_www/MIRROR/OPS/GOES/Plot_r2d2/Main/get_go.pl >> $HOME/Logs/goese13_main_mirror.cron 2>&1
+#
+#--- GOES
+#
+#2,7,12,17,22,27,32,37,42,47,52,57 * * * * cd /data/mta_www/MIRROR/OPS/GOES/Plot_r2d2/I4/; /data/mta_www/MIRROR/OPS/GOES/Plot_r2d2/I4/get_go.pl     >> $HOME/Logs/goese13_i4_mirror.cron   2>&1
+#
+#--- MIRROR SITE RELATED
+#
+58 * * * *   cp /proj/rac/ops/ephem/dsn_summary.dat       /data/mta4/www    >> /dev/null 2>&1
+#
+###########################################################################################
+#--- Mirror Side Snapshot
+###########################################################################################
+#
+#--- Snapshop Related
+#
+#moved to colosuss-v June-9-2021 by SJW
+#* * * * *    cd /data/mta/www/MIRROR/Snap/Exc/; /data/mta/www/MIRROR/Snap/Scripts/tlogr.pl     >> $HOME/Logs/RT/tlogr_bu.cron 2>&1
+#1 0 * * *    cd /data/mta/www/MIRROR/Snap/Exc/; /data/mta/www/MIRROR/Snap/Scripts/snarcl.pl    >>  $HOME/Logs/RT/snarcl_bu.cron 2>&1
+#
+#--- TST Related
+#
+2,7,12,17,22,27,32,37,42,47,52,57 * * * * /data/mta_www/MIRROR/OPS/GOES/get_go.pl   >> $HOME/Logs/RT/run_goes_bu.cron    2>&1
+2,7,12,17,22,27,32,37,42,47,52,57 * * * * /data/mta_www/MIRROR/OPS/GOES/I4/get_go.pl>> $HOME/Logs/RT/run_goes_i4_bu.cron 2>&1
+4,9,14,19,24,29,34,39,44,49,54,59 * * * * /data/mta_www/MIRROR/OPS/ephem/gephem.pl  >> $HOME/Logs/RT/run_gephem_bu.cron  2>&1
+#
+#--- Older SOH Related
+#
+#22 2 * * * /data/mta_www/MIRROR/OPS/ephem/TLE/get_tle.pl        >> $HOME/Logs/tle_bu.cron           2>&1
+#21 3 * * * cd /data/mta_www/MIRROR/OPS/ephem; ./ephem.pl        >> $HOME/Logs/ephem_bu.cron         2>&1
+#41 3 * * 0 /data/mta_www/MIRROR/OPS/ephem/longterm/dephem.pl    >> $HOME/Logs/dephem_bu.cron        2>&1
+#
+#--- SOH Real Time
+#
+* * * * *  /data/mta/www/MIRROR/SOH/Scripts/rt_checker.pl       >> $HOME/Logs/RT/rt_checker_bu.cron      2>&1
+* * * * *  /data/mta/www/MIRROR/SOH/Scripts/rt_checker_ccdm.pl  >> $HOME/Logs/RT/rt_checker_ccdm_bu.cron 2>&1
+* * * * *  /data/mta/www/MIRROR/SOH/Scripts/rt_checker_pcad.pl  >> $HOME/Logs/RT/rt_checker_pcad_bu.cron 2>&1
+* * * * *  /data/mta/www/MIRROR/SOH/Scripts/rt_checker_safe.pl  >> $HOME/Logs/RT/rt_checker_safe_bu.cron 2>&1
+#
+#
+#
+######################################################################################
+#-- Dump file processing: OTG, DS rdb update etc for Backup Site                    --
+######################################################################################
+#
+32 */3 * * * cd /data/mta4/Script/Dumps/Exc; /data/mta4/Script/Dumps/Scripts/run_otg_wrap_script  >> $HOME/Logs/filters_otg_bu.cron  2>&1
+06 */3 * * * cd /data/mta4/Script/Dumps/Exc; /data/mta4/Script/Dumps/Scripts/run_otg_wrap_script2 >> $HOME/Logs/filters_otg2_bu.cron 2>&1
+#40 * * * *   cd /data/mta4/Script/Dumps/Dumps_mon; ./mta_run_2.6_bu                              >> $HOME/Logs/dumps_mon_bu.cron    2>&1
+# Commenting out the Dumps_mon / Config_mon backup for mta@r2d2-v means that the backup OTG monitor slowly builds up chandra tracelog files for alert limit email processing.
+# But to avoid email spam since this constantly alerts on 1PIN1AT, this backup was commented out on Nov 27 2023.
+# Therefore periodically clean out the backup dumps_mon in file
+40 1 * * * cd /data/mta4/Script/Dumps/Dumps_mon/IN; rm -rf ./*
+#
+##################################################################################
+#--- MTA Trending (moved from vodata 09/21/21)                                  --
+##################################################################################
+#--- plotting for msid trending-deprecation
+#
+#34 2 * * 0 cd /data/mta/Script/MTA_limit_trends/Exc3; /data/mta/Script/MTA_limit_trends/Scripts/run_trend_wrap_script_sun2 > $HOME/Logs/mta_trend_long_sun.cron 2>&1
+#
+#34 2 * * 1 cd /data/mta/Script/MTA_limit_trends/Exc3; /data/mta/Script/MTA_limit_trends/Scripts/run_trend_wrap_script_mon2 > $HOME/Logs/mta_trend_long_mon.cron 2>&1
+#
+#34 2 * * 2 cd /data/mta/Script/MTA_limit_trends/Exc3; /data/mta/Script/MTA_limit_trends/Scripts/run_trend_wrap_script_tus2 > $HOME/Logs/mta_trend_long_tus.cron 2>&1
+#
+#34 2 * * 3 cd /data/mta/Script/MTA_limit_trends/Exc3; /data/mta/Script/MTA_limit_trends/Scripts/run_trend_wrap_script_wed2 > $HOME/Logs/mta_trend_long_wed.cron 2>&1
+#
+#34 2 * * 4 cd /data/mta/Script/MTA_limit_trends/Exc3; /data/mta/Script/MTA_limit_trends/Scripts/run_trend_wrap_script_thu2 > $HOME/Logs/mta_trend_long_thu.cron 2>&1
+#
+#34 2 * * 5 cd /data/mta/Script/MTA_limit_trends/Exc3; /data/mta/Script/MTA_limit_trends/Scripts/run_trend_wrap_script_fri2 > $HOME/Logs/mta_trend_long_fri.cron 2>&1
+#
+#34 2 * * 6 cd /data/mta/Script/MTA_limit_trends/Exc3; /data/mta/Script/MTA_limit_trends/Scripts/run_trend_wrap_script_sat2 > $HOME/Logs/mta_trend_long_sat.cron 2>&1
+#
+##################################################################################
+#-- Misc                                                       ----
+##################################################################################
+#--- Cron Check Test
+#
+0,30 * * * * /data/mta/Script/Cron_check/Scripts/check_cron_records.py >> $HOME/Logs/new_cron_check_r2d2_v_mta  2>&1
+15 7 * * *   cd /data/mta/Script/Cron_check/Scripts/; /data/mta/Script/Cron_check/Scripts/backup_cron_log.py >> /data/mta/Script/Cron_check/Scripts/r2d2_backup_log       2>&1
+#
+#--- Staled Process Check
+#
+23 1 * * * /data/mta/Script/Check_Staled/Scripts/check_staled_process.py >> $HOME/Logs/check_staled_process.cron 2>&1
+#
+#--- Removing Unwanted Files
+#
+#14 3 * * * cd /stage/xmmops_ftp/; /data/mta/Script/Ftp_clean/cleanup_ftp_site.py >$HOME/Logs/ftp_cleanup.cron 2>&1

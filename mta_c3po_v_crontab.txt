@@ -1,0 +1,226 @@
+#
+#IMPORTED C3P0-V CRONTAB ON MAY 28, 2026 FOR TRANSITION TO ROCKY LINUX
+#
+###################################################################################
+###################################################################################
+###################################################################################
+# Cron Variables
+SOH_DIR=/data/mta/Script/SOH
+SOH_WEB_DIR=/data/mta_www/MIRROR/CSH
+ENV_FLIGHT=/proj/sot/ska3/flight
+
+##################################################################################
+#---- Snapshot
+##################################################################################
+#
+#--- Restart ACORN if necessary
+#
+# Acorn scripts, holdover until data flows to r2d2-v
+#3,30 * * * * /data/mta4/www/Snapshot/run-acorn.pl >> $HOME/Logs/RT/run-acorn.cron      2>&1
+#1,31 * * * * /data/mta4/www/SOH/run-acorn.pl      >> $HOME/Logs/RT/run-acorn-soh.cron  2>&1
+#2,32 * * * * /data/mta4/www/SOH/PCAD/run-acorn.pl >> $HOME/Logs/RT/run-acorn-pcad.cron 2>&1
+#
+#----- Snapshot
+#
+#* * * * * cd /data/mta4/www/Snapshot; ./tlogr_linux.pl >> $HOME/Logs/RT/tlogr_linux.cron 2>&1
+#
+#---- Check for New Tracelogs and Start Older SOH pages
+#
+#* * * * * /data/mta4/www/SOH/rt_checker.pl >> $HOME/Logs/RT/rt1_checker.cron 2>&1
+#* * * * * /data/mta4/www/SOH/rt_checker_ccdm.pl >>$HOME/Logs/RT/rt1_checker_ccdm.cron 2>&1
+#* * * * * /data/mta4/www/SOH/rt_checker_pcad.pl >>$HOME/Logs/RT/rt1_checker_pcad.cron 2>&1
+#* * * * * /data/mta4/www/SOH/rt_checker_safe.pl >>$HOME/Logs/RT/rt1_checker_safe.cron 2>&1
+#
+######################################################################################
+#-- MTA Related Scripts                                                           ---
+######################################################################################
+#
+#--- ACIS Histogram
+#
+5 2 3  * *  cd /data/mta/Script/ACIS/Acis_hist/Exc; /data/mta/Script/ACIS/Acis_hist/Scripts/acis_hist_wrap_script >> $HOME/Logs/acis_hist.cron 2>&1
+#
+#--- ACIS Sci Run
+#
+7 2  * * *  cd /data/mta/Script/ACIS/Acis_sci_run/Exc; /data/mta/Script/ACIS/Acis_sci_run/Script/acis_sci_run_wrap_script >> $HOME/Logs/acis_sci_run_py.cron 2>&1
+#
+#--- ACIS Count Rate
+#
+20 3 * * * cd /data/mta/Script/ACIS/Count_rate/Exc; /data/mta/Script/ACIS/Count_rate/Scripts/count_rate_day_wrap_script >> $HOME/Logs/acis_dose_day_py.cron 2>&1
+35 3 3 * * cd /data/mta/Script/ACIS/Count_rate/Exc; /data/mta/Script/ACIS/Count_rate/Scripts/count_rate_wrap_script     >> $HOME/Logs/acis_dose_py.cron 2>&1
+#
+#--- ACIS CTI
+#
+35 2  * * *  cd /data/mta/Script/ACIS/CTI/Exc;/data/mta/Script/ACIS/CTI/Scripts/acis_cti_wrap_script  >> $HOME/Logs/acis_cti.cron 2>&1
+35 3  * * 7  cd /data/mta/Script/ACIS/CTI/Exc;/data/mta/Script/ACIS/CTI/Scripts/acis_cti_wrap_script2 >> $HOME/Logs/acis_cti.cron 2>&1
+38 3  * * *  cd /data/mta4/www/DAILY/mta_rad; /data/mta4/www/DAILY/mta_rad/get_cti_data >> $HOME/Logs/get_cti.cron 2>&1
+#
+#--- ACIS Focal
+#
+44 5 * * * /data/mta/Script/ACIS/Focal/Script/fp_run_wrap_script >> $HOME/Logs/focal.cron 2>&1
+#
+#
+#--- ACIS Gain
+#
+11 3 3 * *  cd /data/mta/Script/ACIS/Gain/Exc; /data/mta/Script/ACIS/Gain/Script/acis_gain_wrap_script >> $HOME/Logs/acis_gain.cron 2>&1
+#
+#--- Aim Point Trending
+#
+7 5 1,16  * *   cd /data/mta/Script/ALIGNMENT/Abs_pointing/Exc; /data/mta/Script/ALIGNMENT/Abs_pointing/Scripts/aiming_wrap_script >> $HOME/Logs/position_aiming.cron 2>&1
+#
+#--- ACIS Corner Pixel Trends
+#
+5 3 * * *  cd /data/mta/Script/Corner_pix/Scripts/; /data/mta/Script/Corner_pix/Scripts/trend_plot_wrap_script >> $HOME/Logs/corner_pix.cron 2>&1
+#
+#--- ACIS SIB Update
+#
+35 22 *  * * cd /data/mta/Script/ACIS/SIB/Correct_excess/Lev1; /data/mta/Script/ACIS/SIB/Scripts/run_extract_evt1_wrap_script         >> $HOME/Logs/sib_lev1_data.cron 2>&1
+15 4  3 * *  cd /data/mta/Script/ACIS/SIB/Correct_excess/; /data/mta/Script/ACIS/SIB/Scripts/run_create_wrap_script                   >> $HOME/Logs/sib_lev2_create.cron 2>&1
+35 20 2,10,20,30  * * cd /data/mta/Script/ACIS/SIB/Correct_excess/Lev2; /data/mta/Script/ACIS/SIB/Scripts/run_extract_evt2_wrap_script>> $HOME/Logs/sib_lev2_data.cron 2>&1
+14 5  *  * * cd /data/mta/Script/ACIS/SIB/Correct_excess/Lev1; rm -rf *fits*    >> /dev/null 2>&1
+14 3  *  * * cd /data/mta/Script/ACIS/SIB/Correct_excess/Lev2; rm -rf *fits*    >> /dev/null 2>&1
+#
+#--- ACIS Bad Pix
+#
+15 3  * * *  /data/mta/Script/ACIS/Bad_pixels/Script/acis_bad_pixel_wrap_script  >>$HOME/Logs/acis_bad_pix.cron  2>&1
+30 3 * * 6  cd /data/mta/Script/ACIS/Bad_pixels/Exc; /data/mta/Script/ACIS/Bad_pixels/Script/acis_bias_plot_wrap_script  >> $HOME/Logs/acis_bis_bkg.cron  2>&1
+#
+#--- ACIS Rejected Events
+#
+1 1 * * * /data/mta/Script/ACIS/Rej_events/Scripts/rejected_evnt_wrap_script >> $HOME/Logs/evts_rej.cron 2>&1
+#
+#--- State Related
+#
+14 1 * * * /data/mta/Script/OBT/Scripts/obt_wrap_script >> $HOME/Logs/mj.cron 2>&1
+5 5  * * * cp /data/mta/Script/OBT/ACIS/house_keeping/sim_data_summary /pool14/chandra/acis_diag_support/mta_sim_data_summary   >> /dev/null 2>&1
+7 5  * * * cp /data/mta/Script/OBT/MJ/house_keeping/comprehensive_data_summary /pool14/chandra/acis_diag_support/mta_comprehensive_data_summary     >> /dev/null 2>&1
+#
+#--- MTA Trend (the part need to access dsops)
+#
+16 0 * * * /data/mta/Script/MTA_limit_trends/Scripts/mta_limit_dea_wrap_script >>  $HOME/Logs/mta_trends_dea_data_retrieve.cron 2>&1
+#
+#--  ACA    
+#
+18 02 3,8,13,18,23,28 * *  /data/mta/Script/ACA/Scripts/aca_wrap_script  >> $HOME/Logs/aca.cron 2>&1
+#
+#
+#--- SIM Twist
+#
+11 1 3 * *   cd /data/mta/Script/ALIGNMENT/Sim_twist/Exec; /data/mta/Script/ALIGNMENT/Sim_twist/Scripts/sim_twist_wrap_script  >> $HOME/Logs/sim_twist.cron 2>&1
+#
+#--- Grating EdE
+#
+32 11 * * 4  cd /data/mta/Script/Grating/EdE_trend/Exc; /data/mta/Script/Grating/EdE_trend/Scripts/ede_wrap_script      >> $HOME/Logs/ede_trends 2>&1
+#
+#--- Gyro
+#
+23 1 * * 0   cd /data/mta/Script/Gyro/Exc; /data/mta/Script/Gyro/Scripts/gyro_drift_wrap_script >> $HOME/Logs/gyro_drift.cron 2>&1
+#
+#--- Solar Panel
+#
+16 3 2 * * cd /data/mta/Script/Sol_panel/Exc; /data/mta/Script/Sol_panel/Scripts/solar_wrap_script >> $HOME/Logs/solar_angle.cron 2>&1
+#
+#--- Sci Run Interrupt
+#
+18 1 * * *  cd /data/mta/Script/Interrupt/Exc; /data/mta/Script/Interrupt/Scripts/sci_run_wrap_script >> $HOME/Logs/sci_run_interrupt.cron 2>&1
+#
+#--- Extracting orbital elements to created rdb files
+#
+30 2 * * 0 cd /data/mta/Script/Orbital/Exc; /data/mta/Script/Orbital/Scripts/extract_orbital_wrap_script >> $HOME/Logs/orb_elm.cron 2>&1
+#
+#############################################################################################
+#-- Report Creation                                                                        --
+#############################################################################################
+#
+#--- Weekly Report
+#
+15 7 * * 5 cd /data/mta/Script/Weekly/Scripts; /data/mta/Script/Weekly/Scripts/weekly_wrap_script >> $HOME/Logs/weekly_report.cron 2>&1
+#
+#--- Monthly Report
+#
+10 5 3 * *  cd /data/mta/Script/Month; /data/mta/Script/Month/Scripts/monthly_wrap_script >> $HOME/Logs/monthly_report.cron 2>&1
+#
+#############################################################################################
+#-- Usint Related                                                                         ---
+#############################################################################################
+#
+#--- Read MP Long Term Web Page and Extract OBSID and Planned Roll Angle
+#
+8 1 * * * cd /data/mta4/obs_ss; /data/mta4/obs_ss/find_planned_roll.py >> $HOME/Logs/find_planned_roll.cron 2>&1
+#
+#--- Create an Access List for ocatdata2html.cgi
+#
+6 12,18,23 * * 0-6 cd /data/mta4/obs_ss; /data/mta4/obs_ss/make_access_list.py >> $HOME/Logs/make_access.cron 2>&1
+#
+#--- Scheduled Observation List
+#
+35 * * * * cd  /data/mta4/obs_ss/; /data/mta4/obs_ss/find_scheduled_obs.py >> $HOME/Logs/find_scheduled_obs.cron 2>&1
+#
+#--- SOT Database
+#
+30 * * * * cd  /data/mta4/obs_ss/;  /data/mta4/obs_ss/sot_data.ksh >> $HOME/Logs/sot_data.cron 2>&1
+#
+#--- Copying Data Set #with new data set, mode cp update_table.db to cus@r2d2-v
+#
+#12 3,9,15,21 * * * cd /data/mta4/CUS/www/Usint/ocat; cp /data/mta4/CUS/www/Usint/ocat/updates_table.list /data/mta4/CUS/www/Usint/ocat/updates_table.list~  >> /dev/null 2>&1
+#
+######################################################################################
+#--- Ephem / Dataseeker rdb update
+######################################################################################
+#
+11 2  * * * cd /data/mta/Script/Ephem/Exc/;     /data/mta/Script/Ephem/Scripts/geomagnet_wrap_script  >> $HOME/Logs/geomagnet.cron 2>&1
+11 3  * * * cd /data/mta/Script/Ephem/Exc/;     /data/mta/Script/Ephem/Scripts/ephem_wrap_script      >> $HOME/Logs/ephem_mta.cron 2>&1
+#
+######################################################################################
+#-- Dump file processing: OTG, DS rdb update etc   Main Site                        --
+######################################################################################
+#
+32 */3 * * * cd /data/mta/Script/Dumps/Exc; /data/mta/Script/Dumps/Scripts/run_otg_wrap_script  >> $HOME/Logs/filters_otg.cron  2>&1
+06 */3 * * * cd /data/mta/Script/Dumps/Exc; /data/mta/Script/Dumps/Scripts/run_otg_wrap_script2 >> $HOME/Logs/filters_otg2.cron 2>&1
+40 * * * *   cd /data/mta/Script/Dumps/Dumps_mon; ./mta_run_2.6 >> $HOME/Logs/dumps_mon.cron 2>&1
+35 1 1 * * cd /data/mta/Script/Dumps/Dumps_mon; /data/mta/Script/Dumps/Dumps_mon/update_par_wrap_script >> $HOME/Logs/update_par.cron 2>&1
+#
+#
+##################################################################################
+#---  Chandra State of Health Data Update: MIRROR SITE
+##################################################################################
+#
+#--- Chandra State of Health Data Update
+#
+
+* * * * * ${ENV_FLIGHT}/bin/skare ${SOH_DIR}/fetch_telem.sh >> ${HOME}/Logs/soh_fetch_telem_bu.cron 2>&1
+34 1 * * * ${ENV_FLIGHT}/bin/skare ${SOH_DIR}/read_comm_time.py -m flight >> ${HOME}/Logs/soh_read_comm_bu.cron 2>&1
+*/10 * * * * ${ENV_FLIGHT}/bin/skare ${SOH_DIR}/csh_plots.py -m flight >> ${HOME}/Logs/generate_csh_plots_bu.cron 2>&1
+40 1 1 * * ${ENV_FLIGHT}/bin/skare ${SOH_DIR}/csh_limits_supplemental.py >> ${HOME}/Logs/soh_lim_desc_bu.cron 2>&1
+
+#
+######################################################################################
+#--- Space_Weather EPHEM Daemon Process Check
+######################################################################################
+#
+18 * * * * cd /data/mta4/Space_Weather/EPHEM/Scripts; /data/mta4/Space_Weather/EPHEM/Scripts/daemon_process_check_ephem_primary.py >> $HOME/Logs/daemon_process_check_ephem_primary_cron 2>&1
+
+######################################################################################
+#---- Misc
+######################################################################################
+#
+#--- Cron Job Check
+#
+5,35 * * * * /data/mta/Script/Cron_check/Scripts/check_cron_records.py    >> $HOME/Logs/new_cron_check_c3po_v_mta.cron   2>&1
+15 7 * * *   cd /data/mta/Script/Cron_check/Scripts/; /data/mta/Script/Cron_check/Scripts/backup_cron_log.py >> /data/mta/Script/Cron_check/Scripts/c3po_backup_log       2>&1
+##10 7 * * *   /data/mta/Script/Cron_check/Scripts/send_error_list_email.py
+##10 7 * * *  cd /data/mta/Script/Cron_check/Scripts/; /data/mta/Script/Cron_check/Scripts/cron_wrap_script   >> /dev/null 2>&1
+##1 0  1 * *  /data/mta/Script/Cron_check/Scripts/monthly_cleanup.py        >> $HOME/Logs/new_cron_email_clean_up_mta.cron 2>&1
+#
+#--- Staled Process check
+#
+23 1 * * *               /data/mta/Script/Check_Staled/Scripts/check_staled_process.py >> $HOME/Logs/check_staled_process.cron 2>&1
+5,15,25,35,45,55 * * * * cd /data/mta/Script/Check_Staled/Scripts; /data/mta/Script/Check_Staled/Scripts/remove_old_temp_files.py   >> /dev/null 2>&1
+#
+#--- Copying MTA Email Archive so that cus can read it
+#
+#45 * * * * rm -f /data/mta4/CUS/www/Usint/TOO_Obs/Msave/mta_mail; tail -n 1000000 /stage/mail/mta >> /data/mta4/CUS/www/Usint/TOO_Obs/Msave/mta_mail 2>/dev/null; chmod 750 /data/mta4/CUS/www/Usint/TOO_Obs/Msave/mta_mail  >> /dev/null 2>&1
+#
+#50 1 * * * rm -f /tmp/mta/run_dea_perl_script.lock ; /data/mta4/testDEA/Scripts/mta_limit_dea_wrap_script >> $HOME/Logs/testDEA.cron 2>&1
+
+#16 * * * * cd /data/mta/www; find -type f -name ".ht*" >> $HOME/mta_days_find_ht 2>>$HOME/mta_days_find_ht.err
+#26 * * * * cd /data/mta/www; find -type l -name ".ht*" >> $HOME/mta_days_find_ht_sym 2>>$HOME/mta_days_find_ht.err
