@@ -1,10 +1,6 @@
-#
-#IMPORTED C3P0-V CRONTAB ON MAY 28, 2026 FOR TRANSITION TO ROCKY LINUX
-#
-###################################################################################
-###################################################################################
-###################################################################################
-# Cron Variables
+# Last Updated: 2026-06-05
+
+# Crontab Environment Variables
 SOH_DIR=/data/mta/Script/SOH
 SOH_WEB_DIR=/data/mta_www/MIRROR/CSH
 ENV_FLIGHT=/proj/sot/ska3/flight

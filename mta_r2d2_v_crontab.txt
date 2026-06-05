@@ -1,8 +1,15 @@
-#
+# Last Updated: 2026-06-05
+
+# Crontab Environment Variables
+SPACE_WEATHER=/data/mta/Script/Space_Weather
+SPACE_WEATHER_WEB=/data/mta/www/MIRROR/Space_Weather
+SPACE_WEATHER_URL=https://ops-web.cfa.harvard.edu/mta/Space_Weather
+ENV_FLIGHT=/proj/sot/ska3/flight
+
 ###################################################################################
 #--- SIM movement
 ###################################################################################
-#
+
 #15 2 * * * cd /data/mta_www/mta_sim/Scripts/SIM_extract/; /data/mta_www/mta_sim/Scripts/SIM_extract/sim_data_wrap_script >> $HOME/Logs/sim_data_ti.cron  2>&1
 14 4 * * * cd /data/mta/Script/SIM_move/Exc; /data/mta/Script/SIM_move/Scripts/run_sim_warp_script  >> $HOME/Logs/sim_movement.cron 2>&1
 #
@@ -114,10 +121,7 @@
 #############################################################################################
 #----- Space Weather Mirror Site                                                            --
 #############################################################################################
-SPACE_WEATHER=/data/mta/Script/Space_Weather
-SPACE_WEATHER_WEB=/data/mta/www/MIRROR/Space_Weather
-SPACE_WEATHER_URL=https://ops-web.cfa.harvard.edu/mta/Space_Weather
-ENV_FLIGHT=/proj/sot/ska3/flight
+
 #
 #--- ACE ---
 #
