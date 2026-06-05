@@ -1,0 +1,32 @@
+# Last Updated: 2026-06-05
+
+#
+#--- Chex
+#
+14 2 1 * *  cd /home/mta/Chex; perl /home/mta/Chex/create_command.perl >  $HOME/Logs/chex_command.cron 2>&1
+18 2 1 * *  cd /home/mta/Chex; /home/mta/Chex/set_wrap_script          >> $HOME/Logs/chex_command.cron 2>&1
+#
+#--- Mirror Site related acorn job checking
+#
+0,30 * * * * cd /data/mta/www/MIRROR/Snap/Exc/; /data/mta/www/MIRROR/Snap/Scripts/run-acorn.pl > $HOME/Logs/RT/run-acorn_bu.cron 2>&1
+1,31 * * * * /data/mta/www/MIRROR/SOH/Scripts/run-acorn.pl      > $HOME/Logs/RT/run-acorn-soh_bu.cron 2>&1
+2,32 * * * * /data/mta/www/MIRROR/SOH/Scripts/run-acorn-pcad.pl > $HOME/Logs/RT/run-acorn-pcad_bu.cron 2>&1
+#
+#--- Snapshop Related
+#
+* * * * *    cd /data/mta/www/MIRROR/Snap/Exc/; /data/mta/www/MIRROR/Snap/Scripts/tlogr.pl     >> $HOME/Logs/RT/tlogr_bu.cron 2>&1
+1 0 * * *    cd /data/mta/www/MIRROR/Snap/Exc/; /data/mta/www/MIRROR/Snap/Scripts/snarcl.pl    >  $HOME/Logs/RT/snarcl_bu.cron 2>&1
+#
+######################################################################################
+#-- Dump file processing: OTG, DS rdb update etc   Main Site                        --
+######################################################################################
+#  
+#32 */3 * * * cd /data/mta/Script/Dumps_test/Exc; /data/mta/Script/Dumps_test/Scripts/run_otg_wrap_script  > $HOME/Logs/filters_otg_colossus.cron  2>&1
+#06 */3 * * * cd /data/mta/Script/Dumps_test/Exc; /data/mta/Script/Dumps_test/Scripts/run_otg_wrap_script2 > $HOME/Logs/filters_otg2_colossus.cron 2>&1
+#40 * * * *   cd /data/mta/Script/Dumps_test/Dumps_test_mon; ./mta_run_2.6 >> $HOME/Logs/dumps_mon_colossus.cron 2>&1
+#
+#--- Cron Job Check
+#
+5,35 * * * * /data/mta/Script/Cron_check/Scripts/check_cron_records.py    >> $HOME/Logs/new_cron_check_colossus_v_mta.cron   2>&1
+15 7 * * *   cd /data/mta/Script/Cron_check/Scripts/; /data/mta/Script/Cron_check/Scripts/backup_cron_log.py >> /data/mta/Script/Cron_check/Scripts/colossus_backup_log       2>&1
+
