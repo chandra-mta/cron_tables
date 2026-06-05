@@ -215,8 +215,3 @@ ENV_FLIGHT=/proj/sot/ska3/flight
 #--- Copying MTA Email Archive so that cus can read it
 #
 #45 * * * * rm -f /data/mta4/CUS/www/Usint/TOO_Obs/Msave/mta_mail; tail -n 1000000 /stage/mail/mta >> /data/mta4/CUS/www/Usint/TOO_Obs/Msave/mta_mail 2>/dev/null; chmod 750 /data/mta4/CUS/www/Usint/TOO_Obs/Msave/mta_mail  >> /dev/null 2>&1
-#
-#50 1 * * * rm -f /tmp/mta/run_dea_perl_script.lock ; /data/mta4/testDEA/Scripts/mta_limit_dea_wrap_script >> $HOME/Logs/testDEA.cron 2>&1
-
-#16 * * * * cd /data/mta/www; find -type f -name ".ht*" >> $HOME/mta_days_find_ht 2>>$HOME/mta_days_find_ht.err
-#26 * * * * cd /data/mta/www; find -type l -name ".ht*" >> $HOME/mta_days_find_ht_sym 2>>$HOME/mta_days_find_ht.err
