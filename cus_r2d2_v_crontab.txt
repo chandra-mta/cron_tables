@@ -1,0 +1,59 @@
+# Last Updated: 2026-06-09
+
+#
+#####################################################################################
+#--- TOO Contact related                                                        ----
+#####################################################################################
+#
+#---TOO contact information
+#
+3 0 * * * cd /data/mta4/CUS/www/Usint/; /data/mta4/CUS/www/Usint/create_schedule_wrap_script >> $HOME/Logs/too_contact.cron 2>&1
+#
+50 *  * * *  /data/mta4/CUS/www/Usint/TOO_Obs/Scripts/too_ddt_wrap_script >> $HOME/Logs/too_ddt_update.cron 2>&1
+#
+#--- Unobserved Obsid Status Check
+#
+####23 3 * * 0 cd /data/mta4/CUS/www/Usint; /data/mta4/CUS/www/Usint/check_unobserved_obsids.py >> $HOME/Logs/check_unobserved_obsids.cron 2>&1
+#
+#--- Sign Off Request (formally naggem.pl)
+#
+0 4 * * 0-6 cd /data/mta4/CUS/www/Usint/; /data/mta4/CUS/www/Usint/signoff_request_wrap_script >> $HOME/Logs/signoff_request.cron 2>&1
+#
+#--- HRC SI Mode Signoff Checker
+#
+34 5 * * * cd /data/mta4/CUS/www/Usint; /data/mta4/CUS/www/Usint/check_hrc_si_mode_sign_off.py >> $HOME/Logs/check_hrc_si_mode_sign_off.cron 2>&1
+#
+#####################################################################################
+#-- USINT RELATED             ---------------------------------
+#####################################################################################
+#
+#--- updated.py related
+#
+20 2,10,12,14,16,18,20 * * * cd /data/mta4/CUS/www/Usint/; /data/mta4/CUS/www/Usint/updated_fill_wrap_script  > $HOME/Logs/updated_fill_cus.cron 2>&1
+#
+#--- new ocat test data update
+#
+14 3 * * * cd /proj/web-cxc/cgi-gen/mta/Obscat/ocat; /proj/web-cxc/cgi-gen/mta/Obscat/ocat/copy_data_to_test.py >  /dev/null 2>&1
+#
+#--- backing up database
+#
+19 */3 * * * cd /data/mta4/CUS/www/Usint/ocat/Backup; /data/mta4/CUS/www/Usint/ocat/Backup/backup_database.py -m flight > $HOME/Logs/backup_database.cron 2>&1
+#
+#--- Converting SQLite database into old updates_table.list file
+#
+*/5 * * * * cd /data/mta4/CUS/www/Usint; /data/mta4/CUS/www/Usint/convert_database_to_list.py -m flight >> $HOME/Logs/convert_database_to_list.cron 2>&1
+#
+#####################################################################################
+#--- MISC 
+#####################################################################################
+#
+#--- Cron Checker
+#
+#12,42 * * * * /data/mta/Script/Cron_check/Scripts_cus/check_cron_records.py >> $HOME/Logs/new_cron_check_r2d2_v_cus.cron 2>&1
+#10 7 * * *   cd /data/mta4/Script/Cron_check/Scripts_cus/; /data/mta/Script/Cron_check/Scripts_cus/cron_wrap_script >> $HOME/Logs/new_cron_email_script_cus.cron       2>&1
+#15 7 * * *   cd /data/mta4/Script/Cron_check/Scripts_cus/; /data/mta/Script/Cron_check/Scripts_cus/backup_cron_log.py >> /data/mta/Script/Cron_check/Scripts_cus/r2d2_cus_backup_log       2>&1
+#
+#--- Disk Space Checker
+#
+#14 12 * * * cd /data/mta/Script/Disk_check/Exc_cus;  /data/mta/Script/Disk_check/Scripts/disk_space_wrap_script3     > /dev/null  2>&1
+#
