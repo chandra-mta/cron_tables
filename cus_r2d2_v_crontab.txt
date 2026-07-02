@@ -11,10 +11,6 @@
 #
 50 *  * * *  /data/mta4/CUS/www/Usint/TOO_Obs/Scripts/too_ddt_wrap_script >> $HOME/Logs/too_ddt_update.cron 2>&1
 #
-#--- Unobserved Obsid Status Check
-#
-####23 3 * * 0 cd /data/mta4/CUS/www/Usint; /data/mta4/CUS/www/Usint/check_unobserved_obsids.py >> $HOME/Logs/check_unobserved_obsids.cron 2>&1
-#
 #--- Sign Off Request (formally naggem.pl)
 #
 0 4 * * 0-6 cd /data/mta4/CUS/www/Usint/; /data/mta4/CUS/www/Usint/signoff_request_wrap_script >> $HOME/Logs/signoff_request.cron 2>&1
