@@ -211,7 +211,3 @@ ENV_FLIGHT=/proj/sot/ska3/flight
 #
 23 1 * * *               /data/mta/Script/Check_Staled/Scripts/check_staled_process.py >> $HOME/Logs/check_staled_process.cron 2>&1
 5,15,25,35,45,55 * * * * cd /data/mta/Script/Check_Staled/Scripts; /data/mta/Script/Check_Staled/Scripts/remove_old_temp_files.py   >> /dev/null 2>&1
-#
-#--- Copying MTA Email Archive so that cus can read it
-#
-#45 * * * * rm -f /data/mta4/CUS/www/Usint/TOO_Obs/Msave/mta_mail; tail -n 1000000 /stage/mail/mta >> /data/mta4/CUS/www/Usint/TOO_Obs/Msave/mta_mail 2>/dev/null; chmod 750 /data/mta4/CUS/www/Usint/TOO_Obs/Msave/mta_mail  >> /dev/null 2>&1
