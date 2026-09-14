@@ -153,7 +153,7 @@ ENV_FLIGHT=/proj/sot/ska3/flight
 #
 #--- SOT Database
 #
-30 * * * * cd  /data/mta4/obs_ss/;  /data/mta4/obs_ss/sot_data.ksh >> $HOME/Logs/sot_data.cron 2>&1
+30 * * * * cd  /data/mta4/obs_ss/;  /data/mta4/obs_ss/sot_data.sh >> $HOME/Logs/sot_data.cron 2>&1
 #
 #--- Copying Data Set #with new data set, mode cp update_table.db to cus@r2d2-v
 #
