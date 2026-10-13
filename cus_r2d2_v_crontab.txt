@@ -12,9 +12,6 @@ OBS_SS_ROOT=/data/mta4/obs_ss
 #--- TOO Contact related                                                        ----
 #####################################################################################
 
-#: legacy script for schedule table information.
-3 0 * * * cd ${USINT_ROOT}; ${ENV_CUS}/bin/python create_schedule_table.py >> ${HOME}/Logs/schedule_table.cron 2>&1
-
 #: Legacy script for text files of too ddt information.
 50 *  * * * cd ${USINT_ROOT}/TOO_Obs/Scripts; ${USINT_ROOT}/TOO_Obs/Scripts/too_ddt.sh >> ${HOME}/Logs/too_ddt_update.cron
 
@@ -23,6 +20,10 @@ OBS_SS_ROOT=/data/mta4/obs_ss
 
 #: Add rolling schedule horizon and update upcoming order to the TOO schedule
 0 2 * * * cd ${USINT_APPLICATION_ROOT}; ${ENV_CUS}/bin/python cli.py schedule maintain-schedule >> ${HOME}/Logs/too_contact.cron 2>&1
+
+#: Send Schedule Reminder Emails
+3 0 * * * cd ${USINT_APPLICATION_ROOT}; ${ENV_CUS}/bin/python cli.py schedule send-reminder-emails >> ${HOME}/Logs/schedule_table.cron 2>&1
+
 #
 #####################################################################################
 #-- USINT RELATED             ---------------------------------
