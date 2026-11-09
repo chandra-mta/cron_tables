@@ -290,14 +290,6 @@ ENV_FLIGHT=/proj/sot/ska3/flight
 2,12,22,32,42,52 * * * * cd /data/mta4/Space_Weather/XMM/Scripts ; /data/mta4/Space_Weather/XMM/Scripts/xmm_wrap_script >> $HOME/Logs/xmm_main_new.cron  2>&1
 #0,5,10,15,20,25,30,35,40,45,50,55 * * * * cp /stage/xmmops_ftp/radmon_02h.dat /data/mta/Space_Weather/XMM/Data/radmon_02h_curr.dat
 #
-######################################################################################
-#-- Dump file processing: OTG, DS rdb update etc for Backup Site                    --
-######################################################################################
-#
-#32 */3 * * * cd /data/mta/Script/Dumps/Exc; /data/mta/Script/Dumps/Scripts/run_otg_wrap_script  >> $HOME/Logs/filters_otg_bu.cron  2>&1
-#06 */3 * * * cd /data/mta/Script/Dumps/Exc; /data/mta/Script/Dumps/Scripts/run_otg_wrap_script2 >> $HOME/Logs/filters_otg2_bu.cron 2>&1
-#40 * * * *   cd /data/mta/Script/Dumps/Dumps_mon; ./mta_run_2.6                                 >> $HOME/Logs/dumps_mon_bu.cron    2>&1
-#
 ###########################################################################################
 #--- CXCDSops Move                                                                       ##
 ###########################################################################################
