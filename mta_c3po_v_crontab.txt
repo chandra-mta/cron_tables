@@ -147,8 +147,8 @@ DUMPS_PROCESS_DIR=/data/mta/Script/Dumps
 
 #: Dump file processing (used in OTG, DS rdb updates)
 32 */3 * * * ${ENV_FLIGHT}/bin/skare ${DUMPS_PROCESS_DIR}/Scripts/parse_dumps.sh >> ${HOME}/Logs/parse_dumps.cron 2>&1
+35 1 1 * * cd ${DUMPS_PROCESS_DIR}/Dumps_mon; ${ENV_FLIGHT}/bin/skare python update_par.py >> ${HOME}/Logs/dumps_mon.cron 2>&1
 40 * * * *   cd /data/mta/Script/Dumps/Dumps_mon; ./mta_run_2.6 >> $HOME/Logs/dumps_mon.cron 2>&1
-35 1 1 * * cd /data/mta/Script/Dumps/Dumps_mon; /data/mta/Script/Dumps/Dumps_mon/update_par_wrap_script >> $HOME/Logs/update_par.cron 2>&1
 
 #: OTG processing
 32 */3 * * * cd /data/mta/Script/Dumps/Exc; /data/mta/Script/Dumps/Scripts/run_otg_wrap_script  >> $HOME/Logs/filters_otg.cron  2>&1
