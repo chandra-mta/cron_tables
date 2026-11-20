@@ -4,7 +4,6 @@
 SOH_DIR=/data/mta/Script/SOH
 SOH_WEB_DIR=/data/mta_www/MIRROR/CSH
 ENV_FLIGHT=/proj/sot/ska3/flight
-DUMPS_PROCESS_ROOT=/data/mta/Script/Dumps
 
 ##################################################################################
 #---- Snapshot
