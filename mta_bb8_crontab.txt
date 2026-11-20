@@ -1,0 +1,10 @@
+# Last Updated: 2026-06-05
+
+# Crontab Environment Variables
+ENV_FLIGHT=/proj/sot/ska3/flight
+DUMPS_PROCESS_ROOT=/data/mtaocc/Dumps
+
+#: Dump file processing and alert monitor (tracelogs also used in OTG, DS rdb updates)
+32 */3 * * * ${ENV_FLIGHT}/bin/skare ${DUMPS_PROCESS_ROOT}/scripts/parse_dumps.sh >> ${HOME}/Logs/parse_dumps.cron 2>&1
+35 1 1 * * cd ${DUMPS_PROCESS_ROOT}/scripts; ${ENV_FLIGHT}/bin/skare python update_par.py >> ${HOME}/Logs/update_dumps_mon_par.cron 2>&1
+40 */3 * * *  ${ENV_FLIGHT}/bin/skare ${DUMPS_PROCESS_ROOT}/scripts/dumps_alert_monitor.sh >> ${HOME}/Logs/dumps_alert_mon.cron 2>&1
